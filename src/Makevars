@@ -1,0 +1,312 @@
+CXX_STD=CXX11
+
+PKG_CFLAGS=$(C_VISIBILITY) -DIGRAPH_VERIFY_FINALLY_STACK=0 -DNCOMPLEX -DPRPACK_IGRAPH_SUPPORT=1 -Digraph_EXPORTS -Ivendor
+PKG_CXXFLAGS=$(CXX_VISIBILITY)
+PKG_FFLAGS=$(F_VISIBILITY)
+
+PKG_CPPFLAGS=-DUSING_R -I. -Iinclude -Ivendor \
+	-I/usr/include/libxml2 -DNDEBUG -DNTIMER -DNPRINT \
+	-DINTERNAL_ARPACK \
+	-DPRPACK_IGRAPH_SUPPORT -DIGRAPH_THREAD_LOCAL=/**/
+	-DIGRAPH_VERIFY_FINALLY_STACK=0 -DNCOMPLEX -DPRPACK_IGRAPH_SUPPORT=1 -Digraph_EXPORTS
+PKG_LIBS=-lxml2   $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
+
+all: $(SHLIB)
+
+OBJECTS=init.o \
+graph/type_indexededgelist.o \
+graph/caching.o \
+graph/iterators.o \
+graph/attributes.o \
+graph/type_common.o \
+core/memory.o \
+core/indheap.o \
+core/error.o \
+core/vector.o \
+core/vector_ptr.o \
+core/printing.o \
+math/complex.o \
+math/utils.o \
+random/random.o \
+random/rng_pcg32.o \
+internal/qsort_r.o \
+internal/qsort.o \
+vendor/uuid/R.o \
+vendor/uuid/clear.o \
+vendor/uuid/compare.o \
+vendor/uuid/copy.o \
+vendor/uuid/gen_uuid.o \
+vendor/uuid/isnull.o \
+vendor/uuid/pack.o \
+vendor/uuid/parse.o \
+vendor/uuid/unpack.o \
+vendor/uuid/unparse.o \
+vendor/pcg/pcg-advance-64.o \
+vendor/pcg/pcg-advance-128.o \
+vendor/pcg/pcg-rngs-64.o \
+vendor/pcg/pcg-rngs-128.o \
+vendor/pcg/pcg-output-32.o \
+vendor/pcg/pcg-output-64.o \
+vendor/pcg/pcg-output-128.o \
+
+# OBJECTS=core/buckets.o \
+# centrality/truss.o \
+# flow/st-cuts.o \
+# flow/flow.o \
+# centrality/closeness.o \
+# centrality/coreness.o \
+# centrality/centrality_other.o \
+# centrality/eigenvector.o \
+# centrality/centralization.o \
+# centrality/pagerank.o \
+# centrality/betweenness.o \
+# centrality/hub_authority.o \
+# graph/type_common.o \
+# graph/attributes.o \
+# graph/caching.o \
+# graph/graph_list.o \
+# graph/basic_query.o \
+# graph/adjlist.o \
+# graph/visitors.o \
+# graph/iterators.o \
+# graph/cattributes.o \
+# graph/type_indexededgelist.o \
+# community/optimal_modularity.o \
+# community/louvain.o \
+# community/leading_eigenvector.o \
+# community/fluid.o \
+# community/fast_modularity.o \
+# community/community_misc.o \
+# community/modularity.o \
+# community/edge_betweenness.o \
+# community/label_propagation.o \
+# community/leiden.o \
+# random/rng_pcg64.o \
+# random/rng_pcg32.o \
+# random/rng_mt19937.o \
+# random/rng_glibc2.o \
+# random/random.o \
+# connectivity/separators.o \
+# connectivity/components.o \
+# connectivity/cohesive_blocks.o \
+# layout/umap.o \
+# layout/davidson_harel.o \
+# layout/layout_grid.o \
+# layout/graphopt.o \
+# layout/sugiyama.o \
+# layout/kamada_kawai.o \
+# layout/gem.o \
+# layout/reingold_tilford.o \
+# layout/large_graph.o \
+# layout/merge_grid.o \
+# layout/mds.o \
+# layout/merge_dla.o \
+# layout/layout_random.o \
+# layout/layout_bipartite.o \
+# layout/circular.o \
+# layout/fruchterman_reingold.o \
+# paths/dijkstra.o \
+# paths/histogram.o \
+# paths/simple_paths.o \
+# paths/random_walk.o \
+# paths/sparsifier.o \
+# paths/floyd_warshall.o \
+# paths/bellman_ford.o \
+# paths/unweighted.o \
+# paths/widest_paths.o \
+# paths/all_shortest_paths.o \
+# paths/voronoi.o \
+# paths/distances.o \
+# paths/johnson.o \
+# paths/shortest_paths.o \
+# paths/eulerian.o \
+# internal/hacks.o \
+# internal/lsap.o \
+# internal/zeroin.o \
+# internal/qsort_r.o \
+# internal/qsort.o \
+# internal/glpk_support.o \
+# cliques/cliquer_wrapper.o \
+# cliques/cliques.o \
+# cliques/glet.o \
+# cliques/maximal_cliques.o \
+# cliques/cliquer/cliquer_graph.o \
+# cliques/cliquer/cliquer.o \
+# cliques/cliquer/reorder.o \
+# version.o \
+# games/establishment.o \
+# games/k_regular.o \
+# games/preference.o \
+# games/static_fitness.o \
+# games/forestfire.o \
+# games/grg.o \
+# games/tree.o \
+# games/barabasi.o \
+# games/dotproduct.o \
+# games/recent_degree.o \
+# games/degree_sequence.o \
+# games/citations.o \
+# games/islands.o \
+# games/watts_strogatz.o \
+# games/callaway_traits.o \
+# games/sbm.o \
+# games/correlated.o \
+# games/growing_random.o \
+# games/erdos_renyi.o \
+# isomorphism/queries.o \
+# isomorphism/vf2.o \
+# isomorphism/isoclasses.o \
+# isomorphism/lad.o \
+# isomorphism/isomorphism_misc.o \
+# linalg/lapack.o \
+# linalg/eigen.o \
+# linalg/blas.o \
+# linalg/arpack.o \
+# properties/ecc.o \
+# properties/convergence_degree.o \
+# properties/loops.o \
+# properties/basic_properties.o \
+# properties/neighborhood.o \
+# properties/dag.o \
+# properties/spectral.o \
+# properties/multiplicity.o \
+# properties/triangles.o \
+# properties/perfect.o \
+# properties/constraint.o \
+# properties/degrees.o \
+# properties/trees.o \
+# properties/girth.o \
+# core/marked_queue.o \
+# core/vector.o \
+# core/error.o \
+# core/array.o \
+# core/interruption.o \
+# core/indheap.o \
+# core/cutheap.o \
+# core/grid.o \
+# core/heap.o \
+# core/matrix_list.o \
+# core/memory.o \
+# core/set.o \
+# core/vector_list.o \
+# core/buckets.o \
+# core/estack.o \
+# core/strvector.o \
+# core/dqueue.o \
+# core/vector_ptr.o \
+# core/stack.o \
+# core/fixed_vectorlist.o \
+# core/psumtree.o \
+# core/progress.o \
+# core/sparsemat.o \
+# core/trie.o \
+# core/printing.o \
+# core/matrix.o \
+# core/statusbar.o \
+# constructors/atlas.o \
+# constructors/lcf.o \
+# constructors/linegraph.o \
+# constructors/generalized_petersen.o \
+# constructors/prufer.o \
+# constructors/famous.o \
+# constructors/de_bruijn.o \
+# constructors/kautz.o \
+# constructors/regular.o \
+# constructors/adjacency.o \
+# constructors/circulant.o \
+# constructors/full.o \
+# constructors/basic_constructors.o \
+# math/complex.o \
+# math/safe_intop.o \
+# math/utils.o \
+# io/gml.o \
+# io/edgelist.o \
+# io/graphml.o \
+# io/leda.o \
+# io/pajek.o \
+# io/dimacs.o \
+# io/parse_utils.o \
+# io/graphdb.o \
+# io/gml-tree.o \
+# io/dl.o \
+# io/parsers/dl-parser.o \
+# io/parsers/gml-lexer.o \
+# io/parsers/pajek-parser.o \
+# io/parsers/ncol-lexer.o \
+# io/parsers/ncol-parser.o \
+# io/parsers/gml-parser.o \
+# io/parsers/lgl-lexer.o \
+# io/parsers/dl-lexer.o \
+# io/parsers/pajek-lexer.o \
+# io/parsers/lgl-parser.o \
+# io/dot.o \
+# io/ncol.o \
+# io/lgl.o \
+# misc/matching.o \
+# misc/chordality.o \
+# misc/mixing.o \
+# misc/scan.o \
+# misc/microscopic_update.o \
+# misc/cocitation.o \
+# misc/cycle_bases.o \
+# misc/embedding.o \
+# misc/spanning_trees.o \
+# misc/bipartite.o \
+# misc/sir.o \
+# misc/other.o \
+# misc/power_law_fit.o \
+# misc/coloring.o \
+# misc/feedback_arc_set.o \
+# misc/conversion.o \
+# misc/graphicality.o \
+# misc/motifs.o \
+# operators/union.o \
+# operators/permute.o \
+# operators/compose.o \
+# operators/rewire.o \
+# operators/disjoint_union.o \
+# operators/add_edge.o \
+# operators/difference.o \
+# operators/subgraph.o \
+# operators/misc_internal.o \
+# operators/intersection.o \
+# operators/contract.o \
+# operators/complementer.o \
+# operators/simplify.o \
+# operators/rewire_edges.o \
+# operators/connect_neighborhood.o \
+# operators/reverse.o \
+# centrality/prpack.o \
+# centrality/truss.o \
+# centrality/prpack/prpack_utils.o \
+# centrality/prpack/prpack_preprocessed_scc_graph.o \
+# centrality/prpack/prpack_preprocessed_ge_graph.o \
+# centrality/prpack/prpack_base_graph.o \
+# centrality/prpack/prpack_preprocessed_schur_graph.o \
+# centrality/prpack/prpack_igraph_graph.o \
+# centrality/prpack/prpack_preprocessed_gs_graph.o \
+# centrality/prpack/prpack_solver.o \
+# centrality/prpack/prpack_result.o \
+# community/walktrap/walktrap_graph.o \
+# community/walktrap/walktrap_communities.o \
+# community/walktrap/walktrap.o \
+# community/walktrap/walktrap_heap.o \
+# community/spinglass/clustertool.o \
+# community/spinglass/pottsmodel_2.o \
+# community/spinglass/NetRoutines.o \
+# community/spinglass/NetDataTypes.o \
+# layout/drl/DensityGrid_3d.o \
+# layout/drl/drl_graph.o \
+# layout/drl/drl_parse.o \
+# layout/drl/drl_layout_3d.o \
+# layout/drl/drl_graph_3d.o \
+# layout/drl/DensityGrid.o \
+# layout/drl/drl_layout.o \
+# games/degree_sequence_vl/gengraph_graph_molloy_optimized.o \
+# games/degree_sequence_vl/gengraph_degree_sequence.o \
+# games/degree_sequence_vl/gengraph_random.o \
+# games/degree_sequence_vl/gengraph_graph_molloy_hash.o \
+# games/degree_sequence_vl/gengraph_mr-connected.o \
+# init.o \
+# misc/order_cycle.o \
+# misc/degree_sequence.o
