@@ -68,17 +68,6 @@ SEXP R_igraph_vcount(SEXP graph) {
 
 SEXP R_igraph_finalizer(void) {
   IGRAPH_FINALLY_FREE();
-  SEXP l1 = PROTECT(install("getNamespace"));
-  SEXP l2 = PROTECT(ScalarString(mkChar("igraph2")));
-  SEXP l3 = PROTECT(lang2(l1, l2));
-  SEXP rho = PROTECT(EVAL(l3));
-  SEXP l4 = PROTECT(install(".igraph.progress"));
-  SEXP l5 = PROTECT(ScalarReal(0.0));
-  SEXP l6 = PROTECT(ScalarString(mkChar("")));
-  SEXP l7 = PROTECT(ScalarLogical(1));
-  SEXP l8 = PROTECT(lang4(l4, l5, l6, l7));
-  eval(l8, rho);
-  UNPROTECT(9);
   return R_NilValue;
 }
 
@@ -147,7 +136,7 @@ SEXP R_igraph_to_SEXP(const igraph_t *graph) {
   memcpy(REAL(VECTOR_ELT(result, 7)), graph->is.stor_begin,
          sizeof(igraph_integer_t)*(size_t) (no_of_nodes+1));
 
-  SET_CLASS(result, ScalarString(CREATE_STRING_VECTOR("igraph")));
+  SET_CLASS(result, ScalarString(CREATE_STRING_VECTOR("igraph2")));
 
   // /* Attributes */
   // SET_VECTOR_ELT(result, 8, (SEXP) graph->attr);
