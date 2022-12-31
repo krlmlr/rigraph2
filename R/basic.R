@@ -1,3 +1,3 @@
 is_igraph <- function(graph){
-  "igraph" %in% class(graph)
+  "igraph2" %in% class(graph)
 }
