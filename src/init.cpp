@@ -69,7 +69,7 @@ SEXP R_igraph_vcount(SEXP graph) {
 SEXP R_igraph_finalizer(void) {
   IGRAPH_FINALLY_FREE();
   SEXP l1 = PROTECT(install("getNamespace"));
-  SEXP l2 = PROTECT(ScalarString(mkChar("igraph")));
+  SEXP l2 = PROTECT(ScalarString(mkChar("igraph2")));
   SEXP l3 = PROTECT(lang2(l1, l2));
   SEXP rho = PROTECT(EVAL(l3));
   SEXP l4 = PROTECT(install(".igraph.progress"));
