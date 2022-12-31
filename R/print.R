@@ -5,4 +5,5 @@ print.header <- function(object) {
   }
 
   vc <- .Call(`C_R_igraph_vcount`, object)
+  warning(vc)
 }

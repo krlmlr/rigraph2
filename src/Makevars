@@ -14,6 +14,7 @@ PKG_LIBS=-lxml2   $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
 all: $(SHLIB)
 
 OBJECTS=init.o \
+graphalt.o \
 graph/type_indexededgelist.o \
 graph/caching.o \
 graph/iterators.o \
